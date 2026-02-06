@@ -50,11 +50,13 @@ export class UIService {
             if (diffY > 50) { // Swipe Up threshold
                 this.jumpIsDown = true;
 
-                // Auto-reset jump after a short delay so it doesn't get stuck
+                // Immediately update start position to prevent continuous triggering for the same movement segment
+                // and to avoid the "flood" of delayedCalls
+                start.y = pointer.y;
+
+                // Auto-reset jump after a short delay
                 this.scene.time.delayedCall(150, () => {
                     this.jumpIsDown = false;
-                    // Reset start Y to prevent continuous jumping from one long swipe
-                    this.pointerStarts[pointer.id].y = pointer.y;
                 });
             }
         }
