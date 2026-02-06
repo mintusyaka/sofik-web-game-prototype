@@ -45,19 +45,20 @@ export class UIService {
 
         // Check for Swipe Up
         const start = this.pointerStarts[pointer.id];
-        if (start) {
+        if (start && !start.swiped) {
             const diffY = start.y - pointer.y;
             if (diffY > 50) { // Swipe Up threshold
                 this.jumpIsDown = true;
-
-                // Immediately update start position to prevent continuous triggering for the same movement segment
-                // and to avoid the "flood" of delayedCalls
-                start.y = pointer.y;
+                start.swiped = true; // Mark as swiped to prevent multiple triggers
 
                 // Auto-reset jump after a short delay
-                this.scene.time.delayedCall(150, () => {
+                if (this.scene) {
+                    this.scene.time.delayedCall(200, () => {
+                        this.jumpIsDown = false;
+                    });
+                } else {
                     this.jumpIsDown = false;
-                });
+                }
             }
         }
     }
