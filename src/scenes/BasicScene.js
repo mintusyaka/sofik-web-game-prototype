@@ -11,9 +11,9 @@ export class BasicScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet('player', '../../assets/leos-animated.png', { frameWidth: 250, frameHeight: 335 });
-        this.load.image('orange', '../../assets/orange.png');
-        this.load.image('banana', '../../assets/banana.png');
+        this.load.spritesheet('player', './assets/leos-animated.png', { frameWidth: 250, frameHeight: 335 });
+        this.load.image('orange', './assets/orange.png');
+        this.load.image('banana', './assets/banana.png');
         this.load.image('cloud', 'https://labs.phaser.io/assets/particles/cloud.png');
     }
     // ... (skip unrelated lines)
