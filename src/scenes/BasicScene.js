@@ -17,7 +17,7 @@ export class BasicScene extends Phaser.Scene {
         this.load.image('banana', './assets/banana.png');
         this.load.image('cloud', 'https://labs.phaser.io/assets/particles/cloud.png');
     }
-    // ... (skip unrelated lines)
+
     create() {
         const { width, height } = this.scale;
 
