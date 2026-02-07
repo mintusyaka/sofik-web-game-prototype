@@ -11,6 +11,34 @@ export class UIService {
         // Check if running on mobile
         const isMobile = !this.scene.sys.game.device.os.desktop;
 
+        // Power Bar
+        this.powerBar = this.scene.add.graphics();
+        this.powerBar.setScrollFactor(0);
+
+        this.powerText = this.scene.add.text(this.scene.scale.width / 2, 45, 'ТИ СТАВ СИЛЬНІШИМ!', {
+            fontSize: '24px',
+            fill: '#ffa500',
+            fontStyle: 'bold'
+        }).setOrigin(0.5).setScrollFactor(0).setVisible(false);
+
+        // Debuff Bar
+        this.debuffBar = this.scene.add.graphics();
+        this.debuffBar.setScrollFactor(0);
+
+        // Timer Texts
+        this.powerTimerText = this.scene.add.text(this.scene.scale.width / 2 + 110, 70, '', {
+            fontSize: '16px',
+            fill: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0, 0.5).setScrollFactor(0).setVisible(false);
+
+        this.debuffTimerText = this.scene.add.text(this.scene.scale.width / 2 + 110, 100, '', {
+            fontSize: '16px',
+            fill: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(0, 0.5).setScrollFactor(0).setVisible(false);
+
+
         if (isMobile) {
             this.createControls();
         }
@@ -91,6 +119,58 @@ export class UIService {
         } else {
             this.rightIsDown = true;
             this.leftIsDown = false;
+        }
+
+    }
+
+    updatePowerBar(percent, seconds) {
+        this.powerBar.clear();
+
+        if (percent > 0) {
+            const width = 200;
+            const height = 20;
+            const x = (this.scene.scale.width - width) / 2;
+            const y = 60; // Below score
+
+            // Background
+            this.powerBar.fillStyle(0x000000, 0.5);
+            this.powerBar.fillRect(x, y, width, height);
+
+            // Bar
+            this.powerBar.fillStyle(0xffa500, 1); // Orange
+            this.powerBar.fillRect(x, y, width * percent, height);
+
+            this.powerText.setVisible(true);
+
+            this.powerTimerText.setText(seconds + 's');
+            this.powerTimerText.setVisible(true);
+        } else {
+            this.powerText.setVisible(false);
+            this.powerTimerText.setVisible(false);
+        }
+    }
+
+    updateDebuffBar(percent, seconds) {
+        this.debuffBar.clear();
+
+        if (percent > 0) {
+            const width = 200;
+            const height = 20;
+            const x = (this.scene.scale.width - width) / 2;
+            const y = 90; // Below power bar
+
+            // Background
+            this.debuffBar.fillStyle(0x000000, 0.5);
+            this.debuffBar.fillRect(x, y, width, height);
+
+            // Bar
+            this.debuffBar.fillStyle(0xff0000, 1); // Red
+            this.debuffBar.fillRect(x, y, width * percent, height);
+
+            this.debuffTimerText.setText(seconds + 's');
+            this.debuffTimerText.setVisible(true);
+        } else {
+            this.debuffTimerText.setVisible(false);
         }
     }
 }

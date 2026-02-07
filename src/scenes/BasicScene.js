@@ -49,8 +49,8 @@ export class BasicScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.clouds, this.handleHitCloud, null, this);
     }
 
-    update() {
-        this.player.update();
+    update(time, delta) {
+        this.player.update(time, delta);
 
         // Cloud cleanup logic could be moved to SpawnService or Cloud class, 
         // but for now keeping it simple or verifying if Cloud handles itself.
@@ -70,7 +70,7 @@ export class BasicScene extends Phaser.Scene {
             this.hitEffect(player);
         }
 
-        if (item instanceof Orange) {
+        if (item instanceof Orange && item.points > 0) {
             player.powerUp();
         }
 
@@ -86,7 +86,8 @@ export class BasicScene extends Phaser.Scene {
         }
 
         this.hitEffect(player);
-        this.scoreService.add(-1);
+        this.scoreService.add(-5);
+        player.hitCloud();
     }
 
     hitEffect(player) {
