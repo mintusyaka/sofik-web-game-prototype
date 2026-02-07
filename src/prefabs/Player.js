@@ -90,6 +90,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
+
         if (this.isDebuffed) {
             this.debuffTimer -= delta;
             if (this.uiService) {
