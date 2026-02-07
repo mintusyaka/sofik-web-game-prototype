@@ -22,7 +22,7 @@ export class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5).setInteractive();
 
         playButton.on('pointerdown', () => {
-            this.scene.start('BasicScene');
+            this.scene.start('GameSelectionScene');
         });
 
         playButton.on('pointerover', () => {

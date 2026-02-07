@@ -1,6 +1,7 @@
 import { Start } from './scenes/Start.js';
 import { BasicScene } from './scenes/BasicScene.js';
 import { MenuScene } from './scenes/MenuScene.js';
+import { GameSelectionScene } from './scenes/GameSelectionScene.js';
 import { AchievementsScene } from './scenes/AchievementsScene.js';
 
 const config = {
@@ -14,6 +15,7 @@ const config = {
     pixelArt: false,
     scene: [
         MenuScene,
+        GameSelectionScene,
         BasicScene,
         AchievementsScene,
         Start
