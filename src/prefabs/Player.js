@@ -14,6 +14,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.createAnimations(scene);
         this.cursors = scene.input.keyboard.createCursorKeys();
+
+        this.isPowered = false;
+    }
+
+    powerUp() {
+        this.isPowered = true;
     }
 
     createAnimations(scene) {
@@ -50,11 +56,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         const jump = (this.cursors.up.isDown || (this.uiService && this.uiService.jumpIsDown)) && this.body.touching.down;
 
         if (left) {
-            this.setVelocityX(-300);
+            this.setVelocityX(this.isPowered ? -500 : -300);
             this.anims.play('left', true);
             this.flipX = true;
         } else if (right) {
-            this.setVelocityX(300);
+            this.setVelocityX(this.isPowered ? 500 : 300);
             this.anims.play('right', true);
             this.flipX = false;
         } else {
@@ -63,7 +69,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         if (jump) {
-            this.setVelocityY(-800);
+            this.setVelocityY(this.isPowered ? -1000 : -800);
         }
     }
 }

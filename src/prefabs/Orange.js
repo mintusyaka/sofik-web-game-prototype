@@ -6,6 +6,6 @@ export class Orange extends Item {
         super(scene, x, y, 'orange');
 
         this.setScale(0.12);
-        this.points = 2;
+        this.points = 10;
     }
 }
