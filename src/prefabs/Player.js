@@ -16,10 +16,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.cursors = scene.input.keyboard.createCursorKeys();
 
         this.isPowered = false;
+        this.powerTimer = 0;
+        this.powerDuration = 5000;
     }
 
     powerUp() {
         this.isPowered = true;
+        this.powerTimer = this.powerDuration;
     }
 
     createAnimations(scene) {
@@ -50,7 +53,22 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    update() {
+    update(time, delta) {
+        if (this.isPowered) {
+            this.powerTimer -= delta;
+            const progress = Math.max(0, this.powerTimer / this.powerDuration);
+            if (this.uiService) {
+                this.uiService.updatePowerBar(progress);
+            }
+
+            if (this.powerTimer <= 0) {
+                this.isPowered = false;
+                if (this.uiService) {
+                    this.uiService.updatePowerBar(0);
+                }
+            }
+        }
+
         const left = this.cursors.left.isDown || (this.uiService && this.uiService.leftIsDown);
         const right = this.cursors.right.isDown || (this.uiService && this.uiService.rightIsDown);
         const jump = (this.cursors.up.isDown || (this.uiService && this.uiService.jumpIsDown)) && this.body.touching.down;
