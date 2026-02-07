@@ -25,7 +25,18 @@ export class UIService {
         this.debuffBar = this.scene.add.graphics();
         this.debuffBar.setScrollFactor(0);
 
+        // Achievement Text
+        this.achievementText = this.scene.add.text(this.scene.scale.width / 2, this.scene.scale.height / 2, '', {
+            fontSize: '32px',
+            fill: '#ffff00',
+            stroke: '#000000',
+            strokeThickness: 4,
+            fontStyle: 'bold',
+            align: 'center'
+        }).setOrigin(0.5).setScrollFactor(0).setVisible(false).setDepth(100);
+
         // Timer Texts
+
         this.powerTimerText = this.scene.add.text(this.scene.scale.width / 2 + 110, 70, '', {
             fontSize: '16px',
             fill: '#ffffff',
@@ -169,8 +180,26 @@ export class UIService {
 
             this.debuffTimerText.setText(seconds + 's');
             this.debuffTimerText.setVisible(true);
-        } else {
             this.debuffTimerText.setVisible(false);
         }
+    }
+
+    showAchievement(text) {
+        this.achievementText.setText(text);
+        this.achievementText.setVisible(true);
+        this.achievementText.setScale(0);
+
+        this.scene.tweens.add({
+            targets: this.achievementText,
+            scaleX: 1,
+            scaleY: 1,
+            duration: 500,
+            ease: 'Back.out',
+            onComplete: () => {
+                this.scene.time.delayedCall(2000, () => {
+                    this.achievementText.setVisible(false);
+                });
+            }
+        });
     }
 }
