@@ -4,6 +4,7 @@ import { ScoreService } from '../services/ScoreService.js';
 import { SpawnService } from '../services/SpawnService.js';
 import { Cloud } from '../prefabs/Cloud.js';
 import { UIService } from '../services/UIService.js';
+import { Orange } from '../prefabs/Orange.js';
 
 export class BasicScene extends Phaser.Scene {
     constructor() {
@@ -68,6 +69,11 @@ export class BasicScene extends Phaser.Scene {
         if (item.points < 0) {
             this.hitEffect(player);
         }
+
+        if (item instanceof Orange) {
+            player.powerUp();
+        }
+
         this.scoreService.add(item.points);
         item.destroy();
     }
