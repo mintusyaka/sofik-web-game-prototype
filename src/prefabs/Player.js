@@ -18,31 +18,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.isPowered = false;
         this.powerTimer = 0;
         this.powerDuration = 5000;
-
-        this.isDebuffed = false;
-        this.debuffTimer = 0;
-        this.debuffDuration = 2000;
     }
 
     powerUp() {
         this.isPowered = true;
         this.powerTimer = this.powerDuration;
-        this.isDebuffed = false;
-        if (this.uiService) {
-            this.uiService.updateDebuffBar(0);
-        }
-    }
-
-    hitCloud() {
-        if (this.isPowered) {
-            this.isPowered = false;
-            if (this.uiService) {
-                this.uiService.updatePowerBar(0);
-            }
-        } else {
-            this.isDebuffed = true;
-            this.debuffTimer = this.debuffDuration;
-        }
     }
 
     createAnimations(scene) {
@@ -77,31 +57,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.isPowered) {
             this.powerTimer -= delta;
             const progress = Math.max(0, this.powerTimer / this.powerDuration);
-            const seconds = Math.ceil(this.powerTimer / 1000);
             if (this.uiService) {
-                this.uiService.updatePowerBar(progress, seconds);
+                this.uiService.updatePowerBar(progress);
             }
 
             if (this.powerTimer <= 0) {
                 this.isPowered = false;
                 if (this.uiService) {
                     this.uiService.updatePowerBar(0);
-                }
-            }
-        }
-
-        if (this.isDebuffed) {
-            this.debuffTimer -= delta;
-            if (this.uiService) {
-                const progress = Math.max(0, this.debuffTimer / this.debuffDuration);
-                const seconds = Math.ceil(this.debuffTimer / 1000);
-                this.uiService.updateDebuffBar(progress, seconds);
-            }
-
-            if (this.debuffTimer <= 0) {
-                this.isDebuffed = false;
-                if (this.uiService) {
-                    this.uiService.updateDebuffBar(0);
                 }
             }
         }

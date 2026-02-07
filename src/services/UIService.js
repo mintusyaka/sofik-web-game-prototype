@@ -21,23 +21,6 @@ export class UIService {
             fontStyle: 'bold'
         }).setOrigin(0.5).setScrollFactor(0).setVisible(false);
 
-        // Debuff Bar
-        this.debuffBar = this.scene.add.graphics();
-        this.debuffBar.setScrollFactor(0);
-
-        // Timer Texts
-        this.powerTimerText = this.scene.add.text(this.scene.scale.width / 2 + 110, 70, '', {
-            fontSize: '16px',
-            fill: '#ffffff',
-            fontStyle: 'bold'
-        }).setOrigin(0, 0.5).setScrollFactor(0).setVisible(false);
-
-        this.debuffTimerText = this.scene.add.text(this.scene.scale.width / 2 + 110, 100, '', {
-            fontSize: '16px',
-            fill: '#ffffff',
-            fontStyle: 'bold'
-        }).setOrigin(0, 0.5).setScrollFactor(0).setVisible(false);
-
 
         if (isMobile) {
             this.createControls();
@@ -46,11 +29,9 @@ export class UIService {
 
     createControls() {
         // Ensure multi-touch is enabled (Phaser supports 2 pointers by default, we make sure)
+        this.scene.add.line(0, 0, width / 2, 0, width / 2, height, 0xffffff, 0.1).setOrigin(0, 0).setScrollFactor(0).setVisible(false);
         this.scene.input.addPointer(1);
 
-        // Visual distinction for zones (optional, subtle lines)
-        const { width, height } = this.scene.scale;
-        this.scene.add.line(0, 0, width / 2, 0, width / 2, height, 0xffffff, 0.1).setOrigin(0, 0).setScrollFactor(0).setVisible(false);
 
         // Input Events
         this.scene.input.on('pointerdown', this.handlePointerDown, this);
@@ -171,6 +152,29 @@ export class UIService {
             this.debuffTimerText.setVisible(true);
         } else {
             this.debuffTimerText.setVisible(false);
+        }
+    }
+
+    updatePowerBar(percent) {
+        this.powerBar.clear();
+
+        if (percent > 0) {
+            const width = 200;
+            const height = 20;
+            const x = (this.scene.scale.width - width) / 2;
+            const y = 60; // Below score
+
+            // Background
+            this.powerBar.fillStyle(0x000000, 0.5);
+            this.powerBar.fillRect(x, y, width, height);
+
+            // Bar
+            this.powerBar.fillStyle(0xffa500, 1); // Orange
+            this.powerBar.fillRect(x, y, width * percent, height);
+
+            this.powerText.setVisible(true);
+        } else {
+            this.powerText.setVisible(false);
         }
     }
 }
