@@ -6,6 +6,6 @@ export class Banana extends Item {
         super(scene, x, y, 'banana');
 
         this.setScale(0.05);
-        this.points = 10;
+        this.points = 5;
     }
 }
