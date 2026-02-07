@@ -49,6 +49,24 @@ export class UIService {
             fontStyle: 'bold'
         }).setOrigin(0, 0.5).setScrollFactor(0).setVisible(false);
 
+        // Exit Button
+        const exitButton = this.scene.add.text(this.scene.scale.width - 20, 20, 'X', {
+            fontSize: '32px',
+            fill: '#ffffff',
+            fontStyle: 'bold'
+        }).setOrigin(1, 0).setScrollFactor(0).setInteractive();
+
+        exitButton.on('pointerdown', () => {
+            this.scene.scene.start('MenuScene');
+        });
+
+        exitButton.on('pointerover', () => {
+            exitButton.setStyle({ fill: '#ff0000' });
+        });
+        exitButton.on('pointerout', () => {
+            exitButton.setStyle({ fill: '#ffffff' });
+        });
+
 
         if (isMobile) {
             this.createControls();
