@@ -11,6 +11,17 @@ export class UIService {
         // Check if running on mobile
         const isMobile = !this.scene.sys.game.device.os.desktop;
 
+        // Power Bar
+        this.powerBar = this.scene.add.graphics();
+        this.powerBar.setScrollFactor(0);
+
+        this.powerText = this.scene.add.text(this.scene.scale.width / 2, 45, 'ТИ СТАВ СИЛЬНІШИМ!', {
+            fontSize: '24px',
+            fill: '#ffa500',
+            fontStyle: 'bold'
+        }).setOrigin(0.5).setScrollFactor(0).setVisible(false);
+
+
         if (isMobile) {
             this.createControls();
         }
@@ -18,11 +29,9 @@ export class UIService {
 
     createControls() {
         // Ensure multi-touch is enabled (Phaser supports 2 pointers by default, we make sure)
+        this.scene.add.line(0, 0, width / 2, 0, width / 2, height, 0xffffff, 0.1).setOrigin(0, 0).setScrollFactor(0).setVisible(false);
         this.scene.input.addPointer(1);
 
-        // Visual distinction for zones (optional, subtle lines)
-        const { width, height } = this.scene.scale;
-        this.scene.add.line(0, 0, width / 2, 0, width / 2, height, 0xffffff, 0.1).setOrigin(0, 0).setScrollFactor(0).setVisible(false);
 
         // Input Events
         this.scene.input.on('pointerdown', this.handlePointerDown, this);
@@ -91,6 +100,29 @@ export class UIService {
         } else {
             this.rightIsDown = true;
             this.leftIsDown = false;
+        }
+    }
+
+    updatePowerBar(percent) {
+        this.powerBar.clear();
+
+        if (percent > 0) {
+            const width = 200;
+            const height = 20;
+            const x = (this.scene.scale.width - width) / 2;
+            const y = 60; // Below score
+
+            // Background
+            this.powerBar.fillStyle(0x000000, 0.5);
+            this.powerBar.fillRect(x, y, width, height);
+
+            // Bar
+            this.powerBar.fillStyle(0xffa500, 1); // Orange
+            this.powerBar.fillRect(x, y, width * percent, height);
+
+            this.powerText.setVisible(true);
+        } else {
+            this.powerText.setVisible(false);
         }
     }
 }
